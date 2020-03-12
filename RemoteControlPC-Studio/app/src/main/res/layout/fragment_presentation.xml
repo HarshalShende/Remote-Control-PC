@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <Button
             android:id="@+id/upArrowButton"
@@ -16,20 +17,22 @@
             android:layout_height="80dp"
             android:background="@drawable/arrow_up" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <Button
             android:id="@+id/leftArrowButton"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:background="@drawable/arrow_left" />
+
         <Button
             android:id="@+id/f5Button"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:background="@color/colorPrimaryLight"
             android:text="F5" />
@@ -40,10 +43,11 @@
             android:layout_height="80dp"
             android:background="@drawable/arrow_right" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <Button
             android:id="@+id/downArrowButton"
@@ -51,5 +55,124 @@
             android:layout_height="80dp"
             android:background="@drawable/arrow_down" />
     </LinearLayout>
+
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+</ScrollView>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/touchPadTextView"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="150dp"
+            android:gravity="start" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/leftClickButton"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Left Click" />
+
+        <Button
+            android:id="@+id/rightClickButton"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Right Click" />
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity=""
+        android:visibility="gone"
+        >
+
+        <TableRow
+            android:layout_marginTop="10dp">
+            <Button
+                android:id="@+id/button20"
+                android:text="Next"
+                android:textSize="11sp" />
+
+            <Button
+                android:id="@+id/button21"
+                android:text="Prev"
+                android:textSize="11sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+
+            <Button
+                android:id="@+id/button23"
+                android:text="Close Ppt"
+                android:textSize="11sp" />
+        </TableRow>
+
+    <TableRow
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/leftc"
+            android:text="LEFT CLICK"
+            android:textSize="11sp"
+            app:srcCompat="@android:drawable/arrow_up_float" />
+
+        <Button
+            android:id="@+id/button19"
+            android:text="PPT/\nSlideShow"
+            android:textColor="#000"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <Button
+                android:id="@+id/rightc"
+                android:text="RIGHT CLICK"
+                android:textSize="11sp"
+                app:srcCompat="@android:drawable/arrow_up_float" />
+
+
+    </TableRow>
+
+        <TableRow
+            android:layout_marginTop="10dp">
+
+            <Button
+                android:id="@+id/button22"
+                android:text="Slideshow \nCurrent Slide"
+                android:textSize="11sp"
+                />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <Button
+                android:id="@+id/leftp"
+                android:text="Draw with Pen ON/OFF"
+                android:textSize="11sp"
+                />
+
+        </TableRow>
+
+
+    </TableLayout>
 
 </LinearLayout>

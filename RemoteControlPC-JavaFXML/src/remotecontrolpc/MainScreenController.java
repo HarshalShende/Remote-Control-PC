@@ -130,7 +130,7 @@ public class MainScreenController implements Initializable {
         setConnectionDetails();
     } 
     
-    private void setConnectionDetails() {
+    public void setConnectionDetails() {
         String ipAddresses[] = new GetMyIpAddress().ipAddress();
         String connectionStatus = "Not Connected";
         int port = new GetFreePort().getFreePort();
@@ -156,7 +156,7 @@ public class MainScreenController implements Initializable {
     }
     
     
-    private void startServer(int port) throws Exception {
+    public void startServer(int port) throws Exception {
         new Service<Void>() {
 
             @Override

@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Remote-Control-PC-RemoteControlPC-Studio.iml" filepath="$PROJECT_DIR$/Remote-Control-PC-RemoteControlPC-Studio.iml" group="RemoteControlPC-Studio" />
       <module fileurl="file://$PROJECT_DIR$/RemoteControlPC-Studio.iml" filepath="$PROJECT_DIR$/RemoteControlPC-Studio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/RemoteControlPC-Studio-app.iml" filepath="$PROJECT_DIR$/app/RemoteControlPC-Studio-app.iml" group="RemoteControlPC-Studio/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -2,6 +2,7 @@ package me.varunon9.remotecontrolpc;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -187,10 +188,16 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.action_live_screen) {
             fragment = new LiveScreenFragment();
         }
+
         if (fragment != null) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.commit();
+        }
+
+        else if(id==R.id.nav_live_screen){
+            Intent intent=new Intent(this,ActivityLivescreen.class);
+            this.startActivity(intent);
         }
     }
 
@@ -216,13 +223,13 @@ public class MainActivity extends AppCompatActivity
     public static void sendMessageToServer(String message) {
         if (MainActivity.clientSocket != null) {
             new SendMessageToServer().execute(String.valueOf(message), "STRING");
-            /*try {
-                MainActivity.objectOutputStream.writeObject(message);
-                MainActivity.objectOutputStream.flush();
-            } catch (Exception e) {
-                e.printStackTrace();
-                socketException();
-            }*/
+//            try {
+//                MainActivity.objectOutputStream.writeObject(message);
+//                MainActivity.objectOutputStream.flush();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                socketException();
+//            }
         }
     }
 

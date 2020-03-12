@@ -38,6 +38,10 @@
             android:id="@+id/nav_power_off"
             android:icon="@drawable/ic_power_off"
             android:title="Power Off" />
+        <item
+            android:id="@+id/nav_live_screen"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Live Screen" />
     </group>
 
     <!--<item android:title="Communicate">

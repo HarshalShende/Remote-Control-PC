@@ -15,6 +15,8 @@ import filesharing.ReceiveFile;
 import filesharing.SendFile;
 import filesharing.SendFilesList;
 import java.net.InetAddress;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import mousekeyboardcontrol.MouseKeyboardControl;
 import poweroff.PowerOff;
@@ -24,12 +26,11 @@ import music.MusicPlayer;
  *
  * @author varun
  */
-
 public class Server {
-    
+
     private Label messageLabel;
-    
-    public void connect(Button resetButton, Label connectionStatusLabel, 
+
+    public void connect(Button resetButton, Label connectionStatusLabel,
             Label messageLabel, int port) {
         this.messageLabel = messageLabel;
         MouseKeyboardControl mouseControl = new MouseKeyboardControl();
@@ -37,40 +38,40 @@ public class Server {
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
         try {
-            MainScreenController.clientSocket = 
-                    MainScreenController.serverSocket.accept();
+            MainScreenController.clientSocket
+                    = MainScreenController.serverSocket.accept();
             Platform.runLater(() -> {
                 resetButton.setDisable(true);
             });
-            InetAddress remoteInetAddress = 
-                    MainScreenController.clientSocket.getInetAddress();
-            String connectedMessage = "Connected to: " + remoteInetAddress;     
+            
+            InetAddress remoteInetAddress
+                    = MainScreenController.clientSocket.getInetAddress();
+            String connectedMessage = "Connected to: " + remoteInetAddress;
             Platform.runLater(() -> {
                 connectionStatusLabel.setText(connectedMessage);
             });
             showMessage(connectedMessage);
-            
+
             // connecting another socket to app (Peer to Peer)
             new ClientToAndroid().connect(remoteInetAddress, port);
-            MainScreenController.inputStream = 
-                    MainScreenController.clientSocket.getInputStream();
-            MainScreenController.outputStream = 
-                    MainScreenController.clientSocket.getOutputStream();
-            MainScreenController.objectOutputStream = 
-                    new ObjectOutputStream(MainScreenController.outputStream);
-            MainScreenController.objectInputStream = 
-                    new ObjectInputStream(MainScreenController.inputStream);
+            MainScreenController.inputStream
+                    = MainScreenController.clientSocket.getInputStream();
+            MainScreenController.outputStream
+                    = MainScreenController.clientSocket.getOutputStream();
+            MainScreenController.objectOutputStream
+                    = new ObjectOutputStream(MainScreenController.outputStream);
+            MainScreenController.objectInputStream
+                    = new ObjectInputStream(MainScreenController.inputStream);
             FileAPI fileAPI = new FileAPI();
             String message, filePath, fileName;
             int slideDuration;
             float volume;
-            PowerOff  powerOff = new PowerOff();
+            PowerOff powerOff = new PowerOff();
             MusicPlayer musicPlayer = new MusicPlayer();
             ImageViewer imageViewer = new ImageViewer();
             while (true) {
                 try {
-                    message = 
-                            (String) MainScreenController.objectInputStream.readObject();
+                    message = (String) MainScreenController.objectInputStream.readObject();
                     int keyCode;
                     if (message != null) {
                         switch (message) {
@@ -84,14 +85,14 @@ public class Server {
                                 mouseControl.doubleClick();
                                 break;
                             case "MOUSE_WHEEL":
-                                int scrollAmount = 
-                                        (int) MainScreenController.objectInputStream.readObject();
+                                int scrollAmount
+                                        = (int) MainScreenController.objectInputStream.readObject();
                                 mouseControl.mouseWheel(scrollAmount);
                                 break;
                             case "MOUSE_MOVE":
                                 int x = (int) MainScreenController.objectInputStream.readObject();
                                 int y = (int) MainScreenController.objectInputStream.readObject();
-                                Point point = MouseInfo.getPointerInfo().getLocation(); 
+                                Point point = MouseInfo.getPointerInfo().getLocation();
                                 // Get current mouse position
                                 float nowx = point.x;
                                 float nowy = point.y;
@@ -122,12 +123,12 @@ public class Server {
                             case "ALT_F4":
                                 mouseControl.altF4();
                                 break;
-                            case "TYPE_CHARACTER": 
+                            case "TYPE_CHARACTER":
                                 //handle StringIndexOutOfBoundsException here when pressing soft enter key
                                 char ch = ((String) MainScreenController.objectInputStream.readObject()).charAt(0);
                                 mouseControl.typeCharacter(ch);
                                 break;
-                            case "TYPE_KEY": 
+                            case "TYPE_KEY":
                                 keyCode = (int) MainScreenController.objectInputStream.readObject();
                                 mouseControl.typeCharacter(keyCode);
                                 break;
@@ -187,7 +188,7 @@ public class Server {
                                 try {
                                     musicPlayer.playNewMedia(filePath);
                                     showMessage("Playing: " + fileName);
-                                } catch(Exception e) {
+                                } catch (Exception e) {
                                     showMessage("Unsupported Media: " + fileName);
                                 }
                                 break;
@@ -210,7 +211,7 @@ public class Server {
                                 filePath = new FileAPI().getHomeDirectoryPath();
                                 filePath = filePath + "/RemoteControlPC/" + fileName;
                                 imageViewer.showImage(fileName, filePath);
-                                break; 
+                                break;
                             case "CLOSE_IMAGE_VIEWER":
                                 imageViewer.closeImageViewer();
                                 break;
@@ -225,9 +226,19 @@ public class Server {
                         Platform.runLater(() -> {
                             resetButton.setDisable(false);
                             connectionStatusLabel.setText("Disconnected");
+                            new MainScreenController().setConnectionDetails();
+                            
                         });
                         connectionClosed();
+                        
+                        try {
+                                new MainScreenController().startServer(3000);
+                            } catch (Exception ex) {
+                                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        connect(resetButton, connectionStatusLabel, messageLabel, port);
                         break;
+                        
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -236,15 +247,25 @@ public class Server {
                     Platform.runLater(() -> {
                         resetButton.setDisable(false);
                         connectionStatusLabel.setText("Disconnected");
+                        new MainScreenController().setConnectionDetails();
+                        
                     });
+                    connectionClosed();
+
+                    try {
+                        new MainScreenController().startServer(3000);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    connect(resetButton, connectionStatusLabel, messageLabel, port);
                     break;
                 }
             };
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    } 
-    
+    }
+
     private void connectionClosed() {
         try {
             MainScreenController.objectInputStream.close();
@@ -253,12 +274,11 @@ public class Server {
             MainScreenController.inputStream.close();
             MainScreenController.outputStream.close();
             MainScreenController.objectOutputStream.close();
-        } 
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     private void showMessage(String message) {
         Platform.runLater(() -> {
             messageLabel.setText(message);
@@ -278,4 +298,4 @@ public class Server {
 * 9. ALT_F4
 * 10. TYPE_CHARACTER
 * 11. TYPE_KEY
-*/
+ */
